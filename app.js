@@ -80,9 +80,7 @@
   }
 
   // ---------- app state ----------
-  // Endless (random every visit) by default; Daily is opt-in. Key bumped so
-  // browsers that saved the old Daily default start fresh.
-  const prefs = load("prefs2", { mode: "quotes", level: "easy", type: "endless" });
+  const prefs = load("prefs", { mode: "quotes", level: "easy", type: "daily" });
   let game = null; // { mode, level, type, idx, puzzle, guesses, done, won, stills, view }
 
   const els = {
@@ -230,7 +228,7 @@
       ${g.type === "daily" ? `<div class="countdown" id="countdown"></div>` : ""}`;
     els.result.hidden = false;
     $("#shareBtn").onclick = share;
-    $("#nextBtn").onclick = () => { prefs.type = "endless"; save("prefs2", prefs); start(true); };
+    $("#nextBtn").onclick = () => { prefs.type = "endless"; save("prefs", prefs); start(true); };
     tickCountdown();
   }
 
@@ -337,9 +335,9 @@
   els.skip.addEventListener("click", () => guess(null));
 
   // ---------- top-level controls ----------
-  document.querySelectorAll(".mode").forEach((b) => b.onclick = () => { prefs.mode = b.dataset.mode; save("prefs2", prefs); clearInput(); start(true); });
-  document.querySelectorAll(".level").forEach((b) => b.onclick = () => { prefs.level = b.dataset.level; save("prefs2", prefs); clearInput(); start(true); });
-  document.querySelectorAll(".pt").forEach((b) => b.onclick = () => { prefs.type = b.dataset.type; save("prefs2", prefs); clearInput(); start(true); });
+  document.querySelectorAll(".mode").forEach((b) => b.onclick = () => { prefs.mode = b.dataset.mode; save("prefs", prefs); clearInput(); start(true); });
+  document.querySelectorAll(".level").forEach((b) => b.onclick = () => { prefs.level = b.dataset.level; save("prefs", prefs); clearInput(); start(true); });
+  document.querySelectorAll(".pt").forEach((b) => b.onclick = () => { prefs.type = b.dataset.type; save("prefs", prefs); clearInput(); start(true); });
 
   let toastTimer;
   function toast(msg) { els.toast.textContent = msg; els.toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => els.toast.classList.remove("show"), 1600); }
